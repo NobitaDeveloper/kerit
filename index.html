@@ -3,44 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demo Project</title>
+    <title>KERiT - Discord Bot</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
-        header { background: #333; color: #fff; padding: 15px; text-align: center; }
-        nav { display: flex; justify-content: center; background: #444; padding: 10px; }
-        nav a { color: #fff; text-decoration: none; padding: 10px 20px; }
-        .hero { text-align: center; padding: 50px; background: #f4f4f4; }
-        .about { padding: 30px; text-align: center; }
-        footer { background: #333; color: #fff; text-align: center; padding: 10px; position: fixed; bottom: 0; width: 100%; }
-        button { background: #008cba; color: white; padding: 10px 20px; border: none; cursor: pointer; }
-        button:hover { background: #005f6b; }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #23272A;
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: #5865F2;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        nav {
+            text-align: center;
+            padding: 15px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 10px;
+            font-size: 18px;
+        }
+        section {
+            padding: 20px;
+            text-align: center;
+        }
+        .login-box {
+            background: white;
+            color: black;
+            padding: 20px;
+            display: inline-block;
+            border-radius: 8px;
+        }
+        input, button {
+            margin: 10px 0;
+            padding: 10px;
+            width: 90%;
+        }
+        .commands {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .command {
+            background: #2C2F33;
+            padding: 15px;
+            margin: 10px;
+            border-radius: 8px;
+            width: 200px;
+        }
+        footer {
+            background: #5865F2;
+            text-align: center;
+            padding: 10px;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Welcome to My Demo Project</h1>
-    </header>
+
+    <header>Welcome to KERiT - Your Ultimate Discord Bot</header>
+
     <nav>
-        <a href="#home">Home</a>
         <a href="#about">About</a>
+        <a href="#login">Login</a>
+        <a href="#commands">Commands</a>
         <a href="#contact">Contact</a>
     </nav>
-    <section class="hero">
-        <h2>Discover Something Amazing</h2>
-        <p>Explore the world of web development.</p>
-        <button onclick="showAlert()">Click Me</button>
+
+    <section id="about">
+        <h2>About KERiT</h2>
+        <p>KERiT is a powerful Discord bot with moderation, music, and fun commands. Enhance your server experience today!</p>
     </section>
-    <section class="about" id="about">
-        <h2>About This Project</h2>
-        <p>This is a simple HTML, CSS, and JavaScript demo project.</p>
+
+    <section id="login">
+        <h2>Login to Your Dashboard</h2>
+        <div class="login-box">
+            <h3>Login</h3>
+            <input type="text" placeholder="Username" required>
+            <input type="password" placeholder="Password" required>
+            <button>Login</button>
+        </div>
     </section>
+
+    <section id="commands">
+        <h2>Bot Commands</h2>
+        <div class="commands">
+            <div class="command">
+                <h3>!ban [user]</h3>
+                <p>Ban a user from the server.</p>
+            </div>
+            <div class="command">
+                <h3>!kick [user]</h3>
+                <p>Kick a user from the server.</p>
+            </div>
+            <div class="command">
+                <h3>!play [song]</h3>
+                <p>Play music in a voice channel.</p>
+            </div>
+            <div class="command">
+                <h3>!help</h3>
+                <p>Get a list of all commands.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2>Contact Us</h2>
+        <p>Email: support@keritbot.com</p>
+        <p>Join our <a href="https://discord.com" target="_blank">Discord Server</a></p>
+    </section>
+
     <footer>
-        <p>&copy; 2025 Demo Project. All rights reserved.</p>
+        &copy; 2025 KERiT Bot. All Rights Reserved.
     </footer>
-    <script>
-        function showAlert() {
-            alert("Hello! Welcome to the Demo Project.");
-        }
-    </script>
+
 </body>
 </html>
