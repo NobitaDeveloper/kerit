@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KERiT - Commands</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0d1b2a, #1b263b);
+            color: #e0e1dd;
+            overflow-x: hidden;
+            cursor: none;
+        }
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(13, 27, 42, 0.9);
+            backdrop-filter: blur(10px);
+        }
+        .section {
+            padding: 6rem 2rem;
+            min-height: 100vh;
+        }
+        .command-category {
+            background: #1b263b;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .command-category:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 221, 235, 0.3);
+        }
+        .command-list {
+            display: none;
+            padding: 1rem;
+        }
+        .command-list.active {
+            display: block;
+        }
+        .command-item {
+            background: #2a344a;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #00ddeb;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 999;
+            box-shadow: 0 0 15px #00ddeb, 0 0 30px #00ddeb;
+        }
+        .cursor-trail {
+            width: 10px;
+            height: 10px;
+            background: #00ddeb;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            opacity: 0.5;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div id="cursor-trails"></div>
+
+    <!-- Navigation -->
+    <nav class="py-4 px-6">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="text-2xl font-bold text-cyan-400">KERiT</div>
+            <div class="space-x-6">
+                <a href="index.html" class="text-cyan-200 hover:text-cyan-400 transition">Home</a>
+                <a href="features.html" class="text-cyan-200 hover:text-cyan-400 transition">Features</a>
+                <a href="commands.html" class="text-cyan-200 hover:text-cyan-400 transition">Commands</a>
+                <a href="faq.html" class="text-cyan-200 hover:text-cyan-400 transition">FAQ</a>
+                <a href="contact.html" class="text-cyan-200 hover:text-cyan-400 transition">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Commands Section -->
+    <section class="section bg-gray-900">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-bold text-cyan-400 text-center mb-12">KERiT Commands</h2>
+            <div class="space-y-4">
+                <!-- Antinuke Commands -->
+                <div class="command-category">
+                    <h3 class="text-2xl font-semibold text-cyan-300">Antinuke</h3>
+                    <div class="command-list">
+                        <div class="command-item"><code>antinuke antiban</code>: Prevent unauthorized bans.</div>
+                        <div class="command-item"><code>antinuke antibot</code>: Block unauthorized bot additions.</div>
+                        <div class="command-item"><code>antinuke antikick</code>: Prevent unauthorized kicks.</div>
+                        <div class="command-item"><code>antinuke antiprune</code>: Stop mass member pruning.</div>
+                        <div class="command-item"><code>antinuke antichannel-create</code>: Block unauthorized channel creation.</div>
+                        <div class="command-item"><code>antinuke antichannel-delete</code>: Prevent channel deletions.</div>
+                        <div class="command-item"><code>antinuke antichannel-update</code>: Stop unauthorized channel updates.</div>
+                        <div class="command-item"><code>antinuke antirole-create</code>: Block unauthorized role creation.</div>
+                        <div class="command-item"><code>antinuke antirole-delete</code>: Prevent role deletions.</div>
+                        <div class="command-item"><code>antinuke antirole-update</code>: Stop unauthorized role updates.</div>
+                        <div class="command-item"><code>antinuke antiserver</code>: Protect server settings from changes.</div>
+                        <div class="command-item"><code>antinuke antiwebhook</code>: Prevent unauthorized webhook creation.</div>
+                        <div class="command-item"><code>antinuke disable</code>: Disable antinuke protection.</div>
+                        <div class="command-item"><code>antinuke enable</code>: Enable antinuke protection.</div>
+                        <div class="command-item"><code>antinuke show</code>: Display antinuke settings.</div>
+                        <div class="command-item"><code>antinuke whitelist add</code>: Add user to antinuke whitelist.</div>
+                        <div class="command-item"><code>antinuke whitelist remove</code>: Remove user from whitelist.</div>
+                        <div class="command-item"><code>antinuke whitelist reset</code>: Reset whitelist.</div>
+                        <div class="command-item"><code>antinuke whitelist show</code>: Show whitelist members.</div>
+                        <div class="command-item"><code>antinuke whitelist</code>: View whitelist settings.</div>
+                    </div>
+                </div>
+                <!-- Greet Commands -->
+                <div class="command-category">
+                    <h3 class="text-2xl font-semibold text-cyan-300">Greet</h3>
+                    <div class="command-list">
+                        <div class="command-item"><code>greet autodel</code>: Configure auto-deletion of greet messages.</div>
+                        <div class="command-item"><code>greet autodel add</code>: Enable auto-deletion for greet messages.</div>
+                        <div class="command-item"><code>greet autodel remove</code>: Disable auto-deletion.</div>
+                        <div class="command-item"><code>greet channel</code>: View greet channel settings.</div>
+                        <div class="command-item"><code>greet channel add</code>: Set greet channel.</div>
+                        <div class="command-item"><code>greet channel remove</code>: Remove greet channel.</div>
+                        <div class="command-item"><code>greet message</code>: View greet message settings.</div>
+                        <div class="command-item"><code>greet message add</code>: Set custom greet message.</div>
+                        <div class="command-item"><code>greet message remove</code>: Remove greet message.</div>
+                        <div class="command-item"><code>greet embed</code>: Configure embed for greet messages.</div>
+                        <div class="command-item"><code>greet image add</code>: Add image to greet messages.</div>
+                        <div class="command-item"><code>greet image remove</code>: Remove greet image.</div>
+                        <div class="command-item"><code>greet image</code>: View greet image settings.</div>
+                        <div class="command-item"><code>greet config</code>: View greet configuration.</div>
+                        <div class="command-item"><code>greet enable</code>: Enable greet feature.</div>
+                        <div class="command-item"><code>greet disable</code>: Disable greet feature.</div>
+                        <div class="command-item"><code>greet reset</code>: Reset greet settings.</div>
+                        <div class="command-item"><code>greet test</code>: Test greet message.</div>
+                    </div>
+                </div>
+                <!-- Ticket Commands -->
+                <div class="command-category">
+                    <h3 class="text-2xl font-semibold text-cyan-300">Tickets</h3>
+                    <div class="command-list">
+                        <div class="command-item"><code>ticket add</code>: Add a user to a ticket.</div>
+                        <div class="command-item"><code>ticket close</code>: Close a ticket.</div>
+                        <div class="command-item"><code>ticket delete</code>: Delete a ticket.</div>
+                        <div class="command-item"><code>ticket panel config</code>: Configure ticket panel settings.</div>
+                        <div class="command-item"><code>ticket panel reset</code>: Reset ticket panel settings.</div>
+                        <div class="command-item"><code>ticket panel setup</code>: Set up ticket panel.</div>
+                        <div class="command-item"><code>ticket panel</code>: View ticket panel settings.</div>
+                        <div class="command-item"><code>ticket remove</code>: Remove a user from a ticket.</div>
+                        <div class="command-item"><code>ticket rename</code>: Rename a ticket.</div>
+                        <div class="command-item"><code>ticket reopen</code>: Reopen a closed ticket.</div>
+                    </div>
+                </div>
+                <!-- Logging Commands -->
+                <div class="command-category">
+                    <h3 class="text-2xl font-semibold text-cyan-300">Logging</h3>
+                    <div class="command-list">
+                        <div class="command-item"><code>setlog</code>: Set logging channel.</div>
+                        <div class="command-item"><code>log-disable</code>: Disable logging.</div>
+                    </div>
+                </div>
+                <!-- Automod Commands -->
+                <div class="command-category">
+                    <h3 class="text-2xl font-semibold text-cyan-300">Automod</h3>
+                    <div class="command-list">
+                        <div class="command-item"><code>automod</code>: View automod settings.</div>
+                        <div class="command-item"><code>automod enable</code>: Enable automod.</div>
+                        <div class="command-item"><code>automod disable</code>: Disable automod.</div>
+                        <div class="command-item"><code>automod config</code>: Configure automod settings.</div>
+                        <div class="command-item"><code>automod antiinvites</code>: Block Discord invites.</div>
+                        <div class="command-item"><code>automod antilink</code>: Block links.</div>
+                        <div class="command-item"><code>automod antispam</code>: Prevent spamming.</div>
+                        <div class="command-item"><code>automod capslock</code>: Limit excessive caps.</div>
+                        <div class="command-item"><code>automod badwords</code>: View bad words list.</div>
+                        <div class="command-item"><code>automod badwords toggle</code>: Toggle bad words filter.</div>
+                        <div class="command-item"><code>automod badwords add</code>: Add a bad word.</div>
+                        <div class="command-item"><code>automod badwords remove</code>: Remove a bad word.</div>
+                        <div class="command-item"><code>automod ignore</code>: View ignored channels/roles.</div>
+                        <div class="command-item"><code>automod ignore channel add</code>: Add channel to ignore list.</div>
+                        <div class="command-item"><code>automod ignore channel remove</code>: Remove channel from ignore list.</div>
+                        <div class="command-item"><code>automod ignore channel</code>: View ignored channels.</div>
+                        <div class="command-item"><code>automod logging</code>: Configure automod logging.</div>
+                        <div class="command-item"><code>automod punishment set</code>: Set punishment for violations.</div>
+                        <div class="command-item"><code>automod punishment</code>: View punishment settings.</div>
+                        <div class="command-item"><code>automod punishment timeout set</code>: Set timeout duration.</div>
+                        <div class="command-item"><code>automod warnings show</code>: Show user warnings.</div>
+                        <div class="command-item"><code>automod warnings reset</code>: Reset user warnings.</div>
+                        <div class="command-item"><code>automod whitelist add</code>: Add user to whitelist.</div>
+                        <div class="command-item"><code>automod whitelist remove</code>: Remove user from whitelist.</div>
+                        <div class="command-item"><code>automod whitelist role add</code>: Add role to whitelist.</div>
+                        <div class="command-item"><code>automod whitelist role remove</code>: Remove role from whitelist.</div>
+                        <div class="command-item"><code>automod whitelist role show</code>: Show whitelisted roles.</div>
+                        <div class="command-item"><code>automod whitelist show</code>: Show whitelisted users.</div>
+                        <div class="command-item"><code>automod whitelist reset</code>: Reset whitelist.</div>
+                    </div>
+                </div>
+                <!-- Media Commands -->
+                <div class="command-category">
+                    <h3 class="text-2xl font-semibold text-cyan-300">Media</h3>
+                    <div class="command-list">
+                        <div class="command-item"><code>media channel add</code>: Add media-only channel.</div>
+                        <div class="command-item"><code>media channel remove</code>: Remove media-only channel.</div>
+                        <div class="command-item"><code>media channel show</code>: Show media channels.</div>
+                        <div class="command-item"><code>media bypass add</code>: Add user to media bypass.</div>
+                        <div class="command-item"><code>media bypass remove</code>: Remove user from bypass.</div>
+                        <div class="command-item"><code>media bypass reset</code>: Reset bypass settings.</div>
+                        <div class="command-item"><code>media bypass show</code>: Show bypass users.</div>
+                        <div class="command-item"><code>media config</code>: Configure media settings.</div>
+                        <div class="command-item"><code>media reset</code>: Reset media settings.</div>
+                        <div class="command-item"><code>media enable</code>: Enable media restrictions.</div>
+                        <div class="command-item"><code>media disable</code>: Disable media restrictions.</div>
+                    </div>
+                </div>
+                <!-- Giveaways Commands -->
+                <div class="command-category">
+                    <h3 class="text-2xl font-semibold text-cyan-300">Giveaways</h3>
+                    <div class="command-list">
+                        <div class="command-item"><code>gstart</code>: Start a giveaway.</div>
+                        <div class="command-item"><code>gend</code>: End a giveaway.</div>
+                        <div class="command-item"><code>greroll</code>: Reroll a giveaway winner.</div>
+                        <div class="command-item"><code>glist</code>: List active giveaways.</div>
+                        <div class="command-item"><code>gresult</code>: Show giveaway results.</div>
+                        <div class="command-item"><code>gparticipants</code>: List giveaway participants.</div>
+                    </div>
+                </div>
+                <!-- Autorole Commands -->
+                <div class="command-category">
+                    <h3 class="text-2xl font-semibold text-cyan-300">Autorole</h3>
+                    <div class="command-list">
+                        <div class="command-item"><code>autorole bots add</code>: Add role for bots.</div>
+                        <div class="command-item"><code>autorole bots remove</code>: Remove bot role.</div>
+                        <div class="command-item"><code>autorole bots</code>: View bot roles.</div>
+                        <div class="command-item"><code>autorole config</code>: Configure autorole settings.</div>
+                        <div class="command-item"><code>autorole humans add</code>: Add role for humans.</div>
+                        <div class="command-item"><code>autorole humans remove</code>: Remove human role.</div>
+                        <div class="command-item"><code>autorole humans</code>: View human roles.</div>
+                        <div class="command-item"><code>autorole reset all</code>: Reset all autorole settings.</div>
+                        <div class="command-item"><code>autorole reset bots</code>: Reset bot roles.</div>
+                        <div class="command-item"><code>autorole reset humans</code>: Reset human roles.</div>
+                        <div class="command-item"><code>autorole reset</code>: Reset autorole settings.</div>
+                    </div>
+                </div>
+                <!-- Poll Commands -->
+                <div class="command-category">
+                    <h3 class="text-2xl font-semibold text-cyan-300">Poll</h3>
+                    <div class="command-list">
+                        <div class="command-item"><code>poll</code>: Create a poll.</div>
+                        <div class="command-item"><code>quickpoll</code>: Create a quick yes/no poll.</div>
+                        <div class="command-item"><code>pollresults</code>: Show poll results.</div>
+                        <div class="command-item"><code>cancelpoll</code>: Cancel an active poll.</div>
+                    </div>
+                </div>
+                <!-- Games Commands -->
+                <div class="command-category">
+                    <h3 class="text-2xl font-semibold text-cyan-300">Games</h3>
+                    <div class="command-list">
+                        <div class="command-item"><code>chess</code>: Play a chess game.</div>
+                        <div class="command-item"><code>rps</code>: Play rock-paper-scissors.</div>
+                        <div class="command-item"><code>ttt</code>: Play tic-tac-toe.</div>
+                        <div class="command-item"><code>wordle</code>: Play a Wordle game.</div>
+                        <div class="command-item"><code>2048</code>: Play the 2048 game.</div>
+                        <div class="command-item"><code>memory-game</code>: Play a memory matching game.</div>
+                        <div class="command-item"><code>number-slider</code>: Play a number slider puzzle.</div>
+                        <div class="command-item"><code>battleship</code>: Play Battleship.</div>
+                        <div class="command-item"><code>connectfour</code>: Play Connect Four.</div>
+                        <div class="command-item"><code>lights-out</code>: Play Lights Out.</div>
+                        <div class="command-item"><code>8ball</code>: Ask the Magic 8-Ball a question.</div>
+                        <div class="command-item"><code>guessnumber</code>: Play a number guessing game.</div>
+                        <div class="command-item"><code>truth</code>: Play Truth or Dare (Truth).</div>
+                        <div class="command-item"><code>dare</code>: Play Truth or Dare (Dare).</div>
+                    </div>
+                </div>
+                <!-- Counting Commands -->
+                <div class="command-category">
+                    <h3 class="text-2xl font-semibold text-cyan-300">Counting</h3>
+                    <div class="command-list">
+                        <div class="command-item"><code>counting enable</code>: Enable counting game.</div>
+                        <div class="command-item"><code>counting disable</code>: Disable counting game.</div>
+                        <div class="command-item"><code>counting config</code>: Configure counting settings.</div>
+                        <div class="command-item"><code>counting set</code>: Set current count.</div>
+                        <div class="command-item"><code>counting reset</code>: Reset counting game.</div>
+                        <div class="command-item"><code>counting channel add</code>: Add counting channel.</div>
+                        <div class="command-item"><code>counting channel remove</code>: Remove counting channel.</div>
+                        <div class="command-item"><code>counting channel show</code>: Show counting channels.</div>
+                        <div class="command-item"><code>counting channel</code>: View counting channel settings.</div>
+                    </div>
+                </div>
+                <!-- Autoresponder Commands -->
+                <div class="command-category">
+                    <h3 class="text-2xl font-semibold text-cyan-300">Autoresponder</h3>
+                    <div class="command-list">
+                        <div class="command-item"><code>ar create</code>: Create an autoresponder.</div>
+                        <div class="command-item"><code>ar delete</code>: Delete an autoresponder.</div>
+                        <div class="command-item"><code>ar edit</code>: Edit an autoresponder.</div>
+                        <div class="command-item"><code>ar show</code>: Show autoresponders.</div>
+                        <div class="command-item"><code>ar reset-all</code>: Reset all autoresponders.</div>
+                    </div>
+                </div>
+                <!-- Moderation Commands -->
+                <div class="command-category">
+                    <h3 class="text-2xl font-semibold text-cyan-300">Moderation</h3>
+                    <div class="command-list">
+                        <div class="command-item"><code>ban</code>: Ban a user.</div>
+                        <div class="command-item"><code>unban</code>: Unban a user.</div>
+                        <div class="command-item"><code>kick</code>: Kick a user.</div>
+                        <div class="command-item"><code>mute</code>: Mute a user.</div>
+                        <div class="command-item"><code>unmute</code>: Unmute a user.</div>
+                        <div class="command-item"><code>purge</code>: Delete multiple messages.</div>
+                        <div class="command-item"><code>snipe</code>: View recently deleted messages.</div>
+                        <div class="command-item"><code>lockchannel</code>: Lock a channel.</div>
+                        <div class="command-item"><code>unlockchannel</code>: Unlock a channel.</div>
+                        <div class="command-item"><code>addrole</code>: Add a role to a user.</div>
+                        <div class="command-item"><code>removerole</code>: Remove a role from a user.</div>
+                        <div class="command-item"><code>deletechannel</code>: Delete a channel.</div>
+                        <div class="command-item"><code>hidechannel</code>: Hide a channel.</div>
+                        <div class="command-item"><code>unhidechannel</code>: Unhide a channel.</div>
+                        <div class="command-item"><code>clonechannel</code>: Clone a channel.</div>
+                        <div class="command-item"><code>slowmode</code>: Set channel slowmode.</div>
+                        <div class="command-item"><code>setnick</code>: Change a user's nickname.</div>
+                        <div class="command-item"><code>announce</code>: Send an announcement.</div>
+                    </div>
+                </div>
+                <!-- Utility Commands -->
+                <div class="command-category">
+                    <h3 class="text-2xl font-semibold text-cyan-300">Utility</h3>
+                    <div class="command-list">
+                        <div class="command-item"><code>afk</code>: Set AFK status.</div>
+                        <div class="command-item"><code>avatar</code>: Display user avatar.</div>
+                        <div class="command-item"><code>banner</code>: Display user banner.</div>
+                        <div class="command-item"><code>boostinfo</code>: Show server boost information.</div>
+                        <div class="command-item"><code>chatgpt</code>: Interact with AI chatbot.</div>
+                        <div class="command-item"><code>github</code>: Fetch GitHub profile/repository info.</div>
+                        <div class="command-item"><code>userinfo</code>: Display user information.</div>
+                        <div class="command-item"><code>serverinfo</code>: Display server information.</div>
+                        <div class="command-item"><code>roleinfo</code>: Display role information.</div>
+                        <div class="command-item"><code>say</code>: Make the bot say a message.</div>
+                        <div class="command-item"><code>embedsay</code>: Send a message in an embed.</div>
+                        <div class="command-item"><code>translate</code>: Translate text.</div>
+                        <div class="command-item"><code>membercount</code>: Show server member count.</div>
+                        <div class="command-item"><code>calculate</code>: Perform calculations.</div>
+                        <div class="command-item"><code>reminder</code>: Set a reminder.</div>
+                        <div class="command-item"><code>reminderstats</code>: Show reminder stats.</div>
+                        <div class="command-item"><code>remindtop</code>: Show top reminders.</div>
+                        <div class="command-item"><code>reminders</code>: List active reminders.</div>
+                        <div class="command-item"><code>cancelreminder</code>: Cancel a reminder.</div>
+                        <div class="command-item"><code>enlarge</code>: Enlarge an image/emoji.</div>
+                        <div class="command-item"><code>status</code>: Show bot status.</div>
+                        <div class="command-item"><code>ytsearch</code>: Search YouTube videos.</div>
+                    </div>
+                </div>
+                <!-- Voice Commands -->
+                <div class="command-category">
+                    <h3 class="text-2xl font-semibold text-cyan-300">Voice</h3>
+                    <div class="command-list">
+                        <div class="command-item"><code>voice kick</code>: Kick a user from voice.</div>
+                        <div class="command-item"><code>voice kickall</code>: Kick all users from voice.</div>
+                        <div class="command-item"><code>voice mute</code>: Mute a user in voice.</div>
+                        <div class="command-item"><code>voice muteall</code>: Mute all users in voice.</div>
+                        <div class="command-item"><code>voice unmute</code>: Unmute a user in voice.</div>
+                        <div class="command-item"><code>voice unmuteall</code>: Unmute all users in voice.</div>
+                        <div class="command-item"><code>voice deafen</code>: Deafen a user in voice.</div>
+                        <div class="command-item"><code>voice undeafen</code>: Undeafen a user in voice.</div>
+                        <div class="command-item"><code>voice deafenall</code>: Deafen all users in voice.</div>
+                        <div class="command-item"><code>voice undeafenall</code>: Undeafen all users in voice.</div>
+                        <div class="command-item"><code>voice move</code>: Move a user to another voice channel.</div>
+                        <div class="command-item"><code>voice moveall</code>: Move all users to another voice channel.</div>
+                        <div class="command-item"><code>voice limit</code>: Set voice channel user limit.</div>
+                    </div>
+                </div>
+                <!-- Vanityroles Commands -->
+                <div class="command-category">
+                    <h3 class="text-2xl font-semibold text-cyan-300">Vanityroles</h3>
+                    <div class="command-list">
+                        <div class="command-item"><code>vanityroles setup</code>: Set up vanity roles.</div>
+                        <div class="command-item"><code>vanityroles show</code>: Show vanity roles.</div>
+                        <div class="command-item"><code>vanityroles reset</code>: Reset vanity roles.</div>
+                    </div>
+                </div>
+                <!-- Autoreaction Commands -->
+                <div class="command-category">
+                    <h3 class="text-2xl font-semibold text-cyan-300">Autoreaction</h3>
+                    <div class="command-list">
+                        <div class="command-item"><code>react add</code>: Add an autoreaction.</div>
+                        <div class="command-item"><code>react remove</code>: Remove an autoreaction.</div>
+                        <div class="command-item"><code>react reset</code>: Reset autoreactions.</div>
+                        <div class="command-item"><code>react list</code>: List autoreactions.</div>
+                        <div class="command-item"><code>react edit</code>: Edit an autoreaction.</div>
+                        <div class="command-item"><code>react chance</code>: Set reaction chance.</div>
+                        <div class="command-item"><code>react mention</code>: Configure mention reactions.</div>
+                        <div class="command-item"><code>react enable</code>: Enable autoreactions.</div>
+                        <div class="command-item"><code>react disable</code>: Disable autoreactions.</div>
+                        <div class="command-item"><code>react config</code>: Configure autoreaction settings.</div>
+                    </div>
+                </div>
+                <!-- Vcrole Commands -->
+                <div class="command-category">
+                    <h3 class="text-2xl font-semibold text-cyan-300">Vcrole</h3>
+                    <div class="command-list">
+                        <div class="command-item"><code>vcrole config</code>: Configure voice role settings.</div>
+                        <div class="command-item"><code>vcrole humans add</code>: Add voice role for humans.</div>
+                        <div class="command-item"><code>vcrole humans remove</code>: Remove human voice role.</div>
+                        <div class="command-item"><code>vcrole humans</code>: View human voice roles.</div>
+                        <div class="command-item"><code>vcrole bots add</code>: Add voice role for bots.</div>
+                        <div class="command-item"><code>vcrole bots remove</code>: Remove bot voice role.</div>
+                        <div class="command-item"><code>vcrole bots</code>: View bot voice roles.</div>
+                        <div class="command-item"><code>vcrole ignore add</code>: Add channel to ignore list.</div>
+                        <div class="command-item"><code>vcrole ignore remove</code>: Remove channel from ignore list.</div>
+                        <div class="command-item"><code>vcrole ignore list</code>: List ignored channels.</div>
+                        <div class="command-item"><code>vcrole ignore</code>: View ignore settings.</div>
+                        <div class="command-item"><code>vcrole reset humans</code>: Reset human voice roles.</div>
+                        <div class="command-item"><code>vcrole reset bots</code>: Reset bot voice roles.</div>
+                        <div class="command-item"><code>vcrole reset ignore</code>: Reset ignore list.</div>
+                        <div class="command-item"><code>vcrole reset all</code>: Reset all voice role settings.</div>
+                    </div>
+                </div>
+                <!-- Chatbot Commands -->
+                <div class="command-category">
+                    <h3 class="text-2xl font-semibold text-cyan-300">Chatbot</h3>
+                    <div class="command-list">
+                        <div class="command-item"><code>chatbot enable</code>: Enable chatbot feature.</div>
+                        <div class="command-item"><code>chatbot disable</code>: Disable chatbot feature.</div>
+                        <div class="command-item"><code>chatbot status</code>: Check chatbot status.</div>
+                        <div class="command-item"><code>chatbot channel</code>: View chatbot channels.</div>
+                        <div class="command-item"><code>chatbot channel add</code>: Add chatbot channel.</div>
+                        <div class="command-item"><code>chatbot channel remove</code>: Remove chatbot channel.</div>
+                        <div class="command-item"><code>chatbot channel show</code>: Show chatbot channels.</div>
+                        <div class="command-item"><code>chatbot reset</code>: Reset chatbot settings.</div>
+                        <div class="command-item"><code>chatbot stats</code>: Show chatbot usage stats.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-6 bg-gray-900 text-center text-cyan-200">
+        <p>© 2025 KERiT. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // GSAP Animations
+        gsap.utils.toArray('.command-category').forEach(category => {
+            gsap.from(category, {
+                scrollTrigger: {
+                    trigger: category,
+                    start: 'top 80%',
+                    end: 'bottom 20%',
+                    toggleActions: 'play none none reverse'
+                },
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                ease: 'power3.out'
+            });
+        });
+
+        // Toggle Command Lists
+        document.querySelectorAll('.command-category').forEach(category => {
+            category.addEventListener('click', () => {
+                const list = category.querySelector('.command-list');
+                list.classList.toggle('active');
+                gsap.to(list, {
+                    height: list.classList.contains('active') ? 'auto' : 0,
+                    duration: 0.5,
+                    ease: 'power2.out'
+                });
+            });
+        });
+
+        // Custom Cursor with Trailing Effect
+        const cursor = document.querySelector('.cursor');
+        const trailsContainer = document.getElementById('cursor-trails');
+        const trails = [];
+        let mouseX = 0, mouseY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            gsap.to(cursor, { x: mouseX - 10, y: mouseY - 10, duration: 0.1 });
+
+            const trail = document.createElement('div');
+            trail.className = 'cursor-trail';
+            trail.style.left = `${mouseX - 5}px`;
+            trail.style.top = `${mouseY - 5}px`;
+            trailsContainer.appendChild(trail);
+            trails.push(trail);
+
+            gsap.to(trail, {
+                opacity: 0,
+                scale: 0,
+                duration: 0.5,
+                delay: 0.1,
+                onComplete: () => {
+                    trail.remove();
+                    trails.shift();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
