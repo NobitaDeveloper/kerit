@@ -3,127 +3,387 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KERiT - Discord Bot</title>
+    <title>KERiT - Ultimate Discord Bot</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #23272A;
-            color: white;
-            margin: 0;
-            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0d1b2a, #1b263b);
+            color: #e0e1dd;
+            overflow-x: hidden;
+            cursor: none;
+            position: relative;
+            min-height: 100vh;
         }
-        header {
-            background: #5865F2;
-            padding: 20px;
-            text-align: center;
-            font-size: 24px;
-            font-weight: bold;
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0d1b2a;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        .loader-logo {
+            width: 120px;
+            margin-bottom: 20px;
+            opacity: 0;
+        }
+        .loader-text {
+            font-size: 1.5rem;
+            color: #00ddeb;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            opacity: 0;
+        }
+        .progress-bar {
+            width: 250px;
+            height: 6px;
+            background: #1b263b;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+        .progress {
+            width: 0;
+            height: 100%;
+            background: #00ddeb;
+            transition: width 2.5s ease;
         }
         nav {
-            text-align: center;
-            padding: 15px;
-        }
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin: 10px;
-            font-size: 18px;
-        }
-        section {
-            padding: 20px;
-            text-align: center;
-        }
-        .login-box {
-            background: white;
-            color: black;
-            padding: 20px;
-            display: inline-block;
-            border-radius: 8px;
-        }
-        input, button {
-            margin: 10px 0;
-            padding: 10px;
-            width: 90%;
-        }
-        .commands {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .command {
-            background: #2C2F33;
-            padding: 15px;
-            margin: 10px;
-            border-radius: 8px;
-            width: 200px;
-        }
-        footer {
-            background: #5865F2;
-            text-align: center;
-            padding: 10px;
-            position: relative;
-            bottom: 0;
+            position: fixed;
+            top: 0;
             width: 100%;
+            z-index: 1000;
+            background: rgba(13, 27, 42, 0.9);
+            backdrop-filter: blur(10px);
+        }
+        .nav-link {
+            display: inline-block;
+            padding: 0.5rem 1.25rem;
+            border-radius: 9999px;
+            background: #1b263b;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        .nav-link:hover {
+            background: #00ddeb;
+            color: #0d1b2a;
+            transform: scale(1.05);
+            box-shadow: 0 0 12px rgba(0, 221, 235, 0.4);
+        }
+        .section {
+            padding: 5rem 1.5rem;
+        }
+        .stat-card {
+            background: rgba(27, 38, 59, 0.85);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            backdrop-filter: blur(4px);
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 221, 235, 0.3);
+        }
+        .glow-button {
+            position: relative;
+            padding: 1rem 2rem;
+            border-radius: 9999px;
+            background: #00ddeb;
+            color: #0d1b2a;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 25px rgba(0, 221, 235, 0.8), 0 0 50px rgba(0, 221, 235, 0.4);
+            z-index: 100;
+            border: 2px solid #00bcd4;
+        }
+        .glow-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 35px rgba(0, 221, 235, 1), 0 0 70px rgba(0, 221, 235, 0.6);
+            background: #00bcd4;
+        }
+        .glow-button::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            right: -15px;
+            bottom: -15px;
+            border-radius: 9999px;
+            background: radial-gradient(circle, rgba(0, 221, 235, 0.5), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+        .glow-button:hover::before {
+            opacity: 1;
+        }
+        /* Interactive Particle Background */
+        #particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        .particle {
+            position: absolute;
+            background: #00ddeb;
+            border-radius: 50%;
+            opacity: 0.3;
+            box-shadow: 0 0 8px rgba(0, 221, 235, 0.5);
+        }
+        /* Enhanced Cursor */
+        .cursor {
+            width: 16px;
+            height: 16px;
+            border: 2px solid #00ddeb;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            box-shadow: 0 0 15px #00ddeb, 0 0 30px rgba(0, 221, 235, 0.5), 0 0 45px rgba(0, 221, 235, 0.2);
+            transition: transform 0.05s ease;
+        }
+        .cursor-trail {
+            width: 8px;
+            height: 8px;
+            background: #00ddeb;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            opacity: 0.7;
+            box-shadow: 0 0 10px rgba(0, 221, 235, 0.6);
         }
     </style>
 </head>
 <body>
+    <!-- Loader -->
+    <div id="loader">
+        <img src="https://cdn.discordapp.com/avatars/1033989201789718528/29ab241b8eb1c6c2325f85645abe2034.png" alt="KERiT Logo" class="loader-logo">
+        <div class="loader-text">Loading KERiT...</div>
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
+    </div>
 
-    <header>Welcome to KERiT - Your Ultimate Discord Bot</header>
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div id="cursor-trails"></div>
 
-    <nav>
-        <a href="#about">About</a>
-        <a href="#login">Login</a>
-        <a href="#commands">Commands</a>
-        <a href="#contact">Contact</a>
+    <!-- Interactive Particle Background -->
+    <div id="particles"></div>
+
+    <!-- Navigation -->
+    <nav class="py-3 px-4">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="text-xl font-bold text-cyan-400">KERiT</div>
+            <div class="space-x-3">
+                <a href="index.html" class="nav-link text-cyan-200">Home</a>
+                <a href="features.html" class="nav-link text-cyan-200">Features</a>
+                <a href="commands.html" class="nav-link text-cyan-200">Commands</a>
+                <a href="faq.html" class="nav-link text-cyan-200">FAQ</a>
+                <a href="contact.html" class="nav-link text-cyan-200">Contact</a>
+            </div>
+        </div>
     </nav>
 
-    <section id="about">
-        <h2>About KERiT</h2>
-        <p>KERiT is a powerful Discord bot with moderation, music, and fun commands. Enhance your server experience today!</p>
-    </section>
-
-    <section id="login">
-        <h2>Login to Your Dashboarddd</h2>
-        <div class="login-box">
-            <h3>Login</h3>
-            <input type="text" placeholder="Username" required>
-            <input type="password" placeholder="Password" required>
-            <button>Login</button>
-        </div>
-    </section>
-
-    <section id="commands">
-        <h2>Bot Commands</h2>
-        <div class="commands">
-            <div class="command">
-                <h3>!ban [user]</h3>
-                <p>Ban a user from the server.</p>
-            </div>
-            <div class="command">
-                <h3>!kick [user]</h3>
-                <p>Kick a user from the server.</p>
-            </div>
-            <div class="command">
-                <h3>!play [song]</h3>
-                <p>Play music in a voice channel.</p>
-            </div>
-            <div class="command">
-                <h3>!help</h3>
-                <p>Get a list of all commands.</p>
+    <!-- Hero Section -->
+    <section class="section text-center min-h-screen flex items-center">
+        <div class="max-w-4xl mx-auto">
+            <img src="https://cdn.discordapp.com/avatars/1033989201789718528/29ab241b8eb1c6c2325f85645abe2034.png" alt="KERiT Logo" class="mx-auto mb-6 w-32 animate-pulse">
+            <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-4">KERiT</h1>
+            <p class="text-lg md:text-2xl text-cyan-100 mb-6">
+                The Ultimate Antinuke & Automod Discord Bot. Trusted by <span class="font-bold">800+ servers</span> and 
+                <span class="font-bold">2M+ users</span> with over <span class="font-bold">400+ commands</span>.
+            </p>
+            <div class="flex justify-center space-x-4">
+                <a href="https://discord.com/oauth2/authorize?client_id=1033989201789718528&permissions=8&scope=bot" target="_blank"
+                   class="glow-button">Invite KERiT</a>
+                <a href="https://discord.gg/YTfWc3e99j" target="_blank"
+                   class="glow-button">Join Support Server</a>
             </div>
         </div>
     </section>
 
-    <section id="contact">
-        <h2>Contact Us</h2>
-        <p>Email: support@keritbot.com</p>
-        <p>Join our <a href="https://discord.com" target="_blank">Discord Server</a></p>
+    <!-- Stats Section -->
+    <section class="section bg-gray-900/50">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold text-cyan-400 text-center mb-10">Why Choose KERiT</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="stat-card">
+                    <h3 class="text-2xl font-semibold text-cyan-300 mb-3">800+ Servers</h3>
+                    <p class="text-gray-300">Empowering Discord communities worldwide with robust protection.</p>
+                </div>
+                <div class="stat-card">
+                    <h3 class="text-2xl font-semibold text-cyan-300 mb-3">2M+ Users</h3>
+                    <p class="text-gray-300">Delivering seamless automation and moderation for all.</p>
+                </div>
+                <div class="stat-card">
+                    <h3 class="text-2xl font-semibold text-cyan-300 mb-3">400+ Commands</h3>
+                    <p class="text-gray-300">A versatile toolkit to enhance your server’s functionality.</p>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <footer>
-        &copy; 2025 KERiT Bot. All Rights Reserved.
+    <!-- Community Section -->
+    <section class="section text-center">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold text-cyan-400 mb-6">Join Our Community</h2>
+            <p class="text-lg text-cyan-100 mb-6">
+                Become part of the KERiT community! Connect with thousands of server owners and users to share tips, get support, and stay updated on new features.
+            </p>
+            <div class="flex justify-center space-x-4">
+                <a href="https://discord.gg/YTfWc3e99j" target="_blank"
+                   class="glow-button">Join Support Server</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-4 bg-gray-900/50 text-center text-cyan-200 text-sm">
+        <p>© 2025 KERiT. All rights reserved.</p>
     </footer>
 
+    <script>
+        // Loader Animation
+        window.addEventListener('load', () => {
+            const tl = gsap.timeline();
+            tl.to('.loader-logo', { opacity: 1, y: -15, duration: 0.8 })
+              .to('.loader-text', { opacity: 1, y: -15, duration: 0.8 }, '-=0.4')
+              .to('.progress', { width: '100%', duration: 2, ease: 'power2.inOut' })
+              .to('#loader', { opacity: 0, duration: 0.8, delay: 0.3, onComplete: () => {
+                  document.getElementById('loader').style.display = 'none';
+              }});
+        });
+
+        // GSAP Scroll Animations
+        gsap.utils.toArray('.section').forEach(section => {
+            gsap.from(section.querySelectorAll('img, h1, h2, p, a, .stat-card'), {
+                scrollTrigger: {
+                    trigger: section,
+                    start: 'top 85%',
+                    end: 'bottom 15%',
+                    toggleActions: 'play none none reverse'
+                },
+                y: 30,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.15,
+                ease: 'power3.out'
+            });
+        });
+
+        // Interactive Particle Background
+        const particlesContainer = document.getElementById('particles');
+        const particles = [];
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.width = `${Math.random() * 3 + 1}px`;
+            particle.style.height = particle.style.width;
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.top = `${Math.random() * 100}%`;
+            particlesContainer.appendChild(particle);
+            particles.push(particle);
+            gsap.to(particle, {
+                x: Math.random() * 50 - 25,
+                y: Math.random() * 50 - 25,
+                opacity: Math.random() * 0.3 + 0.1,
+                duration: Math.random() * 6 + 3,
+                repeat: -1,
+                yoyo: true,
+                ease: 'sine.inOut'
+            });
+        }
+
+        // Mouse-Interactive Particles
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+            particles.forEach(particle => {
+                const rect = particle.getBoundingClientRect();
+                const particleX = rect.left + rect.width / 2;
+                const particleY = rect.top + rect.height / 2;
+                const dist = Math.sqrt((mouseX - particleX) ** 2 + (mouseY - particleY) ** 2);
+                if (dist < 80) {
+                    const angle = Math.atan2(mouseY - particleY, mouseX - particleX);
+                    gsap.to(particle, {
+                        x: -Math.cos(angle) * (80 - dist) * 0.5,
+                        y: -Math.sin(angle) * (80 - dist) * 0.5,
+                        duration: 0.4,
+                        ease: 'power2.out'
+                    });
+                }
+            });
+        });
+
+        // Enhanced Cursor with Dynamic Glow
+        const cursor = document.querySelector('.cursor');
+        const trailsContainer = document.getElementById('cursor-trails');
+        const trails = [];
+        let mouseX = 0, mouseY = 0, lastMouseX = 0, lastMouseY = 0;
+        let speed = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            const prevX = mouseX;
+            const prevY = mouseY;
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+
+            // Calculate mouse speed
+            const deltaX = mouseX - prevX;
+            const deltaY = mouseY - prevY;
+            speed = Math.sqrt(deltaX * deltaX + deltaY * deltaY) / 10;
+            const scale = Math.min(1 + speed * 0.2, 1.2);
+            const glow = Math.min(45 + speed * 20, 60);
+
+            gsap.to(cursor, {
+                x: mouseX - 8,
+                y: mouseY - 8,
+                duration: 0.04,
+                ease: 'power2.out',
+                scale: scale,
+                boxShadow: `0 0 ${glow}px #00ddeb, 0 0 ${glow * 1.5}px rgba(0, 221, 235, 0.5), 0 0 ${glow * 2}px rgba(0, 221, 235, 0.2)`
+            });
+
+            const trail = document.createElement('div');
+            trail.className = 'cursor-trail';
+            trail.style.left = `${mouseX - 4}px`;
+            trail.style.top = `${mouseY - 4}px`;
+            trail.style.opacity = Math.min(0.7 + speed * 0.2, 0.9);
+            trailsContainer.appendChild(trail);
+            trails.push(trail);
+
+            gsap.to(trail, {
+                opacity: 0,
+                scale: 0.3,
+                duration: 0.8,
+                delay: 0.05,
+                ease: 'power2.out',
+                onComplete: () => {
+                    trail.remove();
+                    trails.shift();
+                }
+            });
+
+            lastMouseX = mouseX;
+            lastMouseY = mouseY;
+        });
+    </script>
 </body>
 </html>
