@@ -245,12 +245,12 @@
         <div class="nav-container">
             <div class="logo">KERiT</div>
             <ul class="nav-links" id="navLinks">
-                <li><a href="index.html" class="nav-link">Home</a></li>
-                <li><a href="features.html" class="nav-link">Features</a></li>
-                <li><a href="commands.html" class="nav-link">Commands</a></li>
-                <li><a href="faq.html" class="nav-link">FAQ</a></li>
-                <li><a href="pricing.html" class="nav-link">Pricing</a></li>
-                <li><a href="contact.html" class="nav-link active">Contact</a></li>
+                <li><a href="/" class="nav-link active">Home</a></li>
+                <li><a href="/features" class="nav-link">Features</a></li>
+                <li><a href="/commands" class="nav-link">Commands</a></li>
+                <li><a href="/faq" class="nav-link">FAQ</a></li>
+                <li><a href="/pricing" class="nav-link">Pricing</a></li>
+                <li><a href="/contact" class="nav-link">Contact</a></li>
             </ul>
             <div class="hamburger" id="hamburger">
                 <span></span>
@@ -331,12 +331,26 @@
             hamburger.classList.toggle('open');
         });
 
+        
+        // Redirect .html to clean URL
+        const currentPath = window.location.pathname;
+        if (currentPath.endsWith('.html')) {
+            const cleanPath = currentPath.replace(/\.html$/, '');
+            console.log(`Redirecting from ${currentPath} to ${cleanPath}`);
+            window.history.replaceState(null, '', cleanPath);
+        }
+
         // Active Nav Link
         document.querySelectorAll('.nav-link').forEach(link => {
-            if (link.href === window.location.href) {
+            const linkPath = new URL(link.href).pathname;
+            const currentPath = window.location.pathname;
+            const cleanLinkPath = linkPath.replace(/\.html$/, '');
+            const cleanCurrentPath = currentPath.replace(/\.html$/, '');
+            if (cleanLinkPath === cleanCurrentPath || (linkPath === '/' && (currentPath === '/index.html' || currentPath === '/'))) {
                 link.classList.add('active');
             }
         });
+
 
         // Scroll Animations
         gsap.registerPlugin(ScrollTrigger);
