@@ -3,120 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contact the KERiT team for support, feedback, or partnerships.">
+    <meta name="keywords" content="KERiT contact, Discord bot support">
+    <meta property="og:title" content="Contact KERiT">
+    <meta property="og:description" content="Get in touch via Discord, email, or social media.">
+    <meta property="og:image" content="kerit_logo.webp">
     <title>Contact KERiT</title>
-    <link rel="icon" href="kerit_logo.webp" type="image/png">
+    <link rel="icon" href="kerit_logo.webp" type="image/webp">
+    <link rel="shortcut icon" href="kerit_logo.webp">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0d1b2a, #1b263b);
+            background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 50%, #415a77 100%);
             color: #e0e1dd;
             overflow-x: hidden;
-            cursor: none;
             position: relative;
             min-height: 100vh;
-        }
-        #loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #0d1b2a;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-        }
-        .loader-logo {
-            width: 120px;
-            margin-bottom: 20px;
             opacity: 0;
-        }
-        .loader-text {
-            font-size: 1.5rem;
-            color: #00ddeb;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            opacity: 0;
-        }
-        .progress-bar {
-            width: 250px;
-            height: 6px;
-            background: #1b263b;
-            border-radius: 3px;
-            overflow: hidden;
-            margin-top: 15px;
-        }
-        .progress {
-            width: 0;
-            height: 100%;
-            background: #00ddeb;
-            transition: width 2.5s ease;
+            transition: opacity 0.5s ease;
+            cursor: default;
         }
         nav {
             position: fixed;
             top: 0;
             width: 100%;
             z-index: 1000;
-            background: rgba(13, 27, 42, 0.9);
-            backdrop-filter: blur(10px);
+            background: rgba(13, 27, 42, 0.95);
+            backdrop-filter: blur(12px);
+            padding: 1rem 0;
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 1rem;
+        }
+        .logo {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: #00ddeb;
+        }
+        .nav-links {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 1rem;
         }
         .nav-link {
             display: inline-block;
-            padding: 0.5rem 1.25rem;
+            padding: 0.75rem 1.5rem;
             border-radius: 9999px;
-            background: #1b263b;
+            background: rgba(27, 38, 59, 0.8);
             text-decoration: none;
             transition: all 0.3s ease;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: #e0e1dd;
+            font-weight: 500;
+            backdrop-filter: blur(5px);
         }
-        .nav-link:hover {
+        .nav-link:hover, .nav-link.active {
             background: #00ddeb;
             color: #0d1b2a;
-            transform: scale(1.05);
-            box-shadow: 0 0 12px rgba(0, 221, 235, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 221, 235, 0.4);
+        }
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+        }
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #00ddeb;
+            transition: all 0.3s ease;
         }
         .section {
-            padding: 5rem 1.5rem;
+            padding: 6rem 1rem;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
         }
-        .contact-button {
-            display: inline-block;
-            padding: 0.5rem 1.25rem;
-            border-radius: 9999px;
-            background: #1b263b;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            font-size: 1rem;
-            font-weight: 600;
-            color: #e0e1dd;
-            box-shadow: 0 0 15px rgba(0, 221, 235, 0.3);
-            z-index: 1000;
-        }
-        .contact-button:hover {
-            background: #00ddeb;
-            color: #0d1b2a;
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(0, 221, 235, 0.6);
-        }
-        .form-input {
+        .contact-card {
             background: rgba(27, 38, 59, 0.85);
-            border: 1px solid #00ddeb;
+            padding: 2.5rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(0, 221, 235, 0.2);
+            text-align: center;
+        }
+        .contact-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 221, 235, 0.3);
+            border-color: #00ddeb;
+        }
+        .form-input, .form-textarea {
+            background: rgba(42, 52, 74, 0.8);
+            border: 1px solid rgba(0, 221, 235, 0.3);
             color: #e0e1dd;
-            padding: 0.75rem;
+            padding: 1rem;
             border-radius: 8px;
             width: 100%;
+            margin-bottom: 1rem;
             transition: all 0.3s ease;
+            font-family: inherit;
         }
-        .form-input:focus {
+        .form-input:focus, .form-textarea:focus {
             outline: none;
-            box-shadow: 0 0 10px rgba(0, 221, 235, 0.5);
+            border-color: #00ddeb;
+            box-shadow: 0 0 0 3px rgba(0, 221, 235, 0.2);
         }
-        /* Interactive Particle Background */
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        .glow-button {
+            position: relative;
+            padding: 1rem 2.5rem;
+            border-radius: 9999px;
+            background: linear-gradient(135deg, #00ddeb, #009999);
+            color: #0d1b2a;
+            font-weight: 700;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 221, 235, 0.4);
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+            cursor: pointer;
+            overflow: hidden;
+            margin: 0.5rem;
+        }
+        .glow-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        .glow-button:hover::before {
+            left: 100%;
+        }
+        .glow-button:hover {
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 221, 235, 0.6);
+        }
         #particles {
             position: fixed;
             top: 0;
@@ -128,238 +173,257 @@
         }
         .particle {
             position: absolute;
-            background: #00ddeb;
+            background: radial-gradient(circle, #00ddeb, transparent);
             border-radius: 50%;
-            opacity: 0.3;
-            box-shadow: 0 0 8px rgba(0, 221, 235, 0.5);
-        }
-        /* Enhanced Cursor */
-        .cursor {
-            width: 16px;
-            height: 16px;
-            border: 2px solid #00ddeb;
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            box-shadow: 0 0 15px #00ddeb, 0 0 30px rgba(0, 221, 235, 0.5), 0 0 45px rgba(0, 221, 235, 0.2);
-            transition: transform 0.05s ease;
-        }
-        .cursor-trail {
-            width: 8px;
-            height: 8px;
-            background: #00ddeb;
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            opacity: 0.7;
+            opacity: 0.4;
             box-shadow: 0 0 10px rgba(0, 221, 235, 0.6);
+            will-change: transform, opacity;
+        }
+        footer {
+            background: rgba(13, 27, 42, 0.95);
+            backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(0, 221, 235, 0.2);
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .footer-links a {
+            color: #00ddeb;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .footer-links a:hover {
+            color: #009999;
+        }
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(13, 27, 42, 0.98);
+                flex-direction: column;
+                padding: 1rem;
+                gap: 0.5rem;
+            }
+            .nav-links.active {
+                display: flex;
+            }
+            .section {
+                padding: 4rem 1rem;
+            }
+            .contact-card {
+                padding: 2rem;
+            }
+            .form-input, .form-textarea {
+                padding: 0.875rem;
+            }
+            .glow-button {
+                padding: 0.875rem 2rem;
+                font-size: 0.95rem;
+                display: block;
+                width: 100%;
+            }
+        }
+        @media (max-width: 480px) {
+            .contact-card {
+                padding: 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Loader
-    <div id="loader">
-        <img src="https://via.placeholder.com/120x120?text=KERiT+Logo" alt="KERiT Logo" class="loader-logo">
-        <div class="loader-text">Loading KERiT...</div>
-        <div class="progress-bar">
-            <div class="progress"></div>
-        </div>
-    </div> -->
-
-    <!-- Custom Cursor -->
-    <div class="cursor"></div>
-    <div id="cursor-trails"></div>
-
-    <!-- Interactive Particle Background -->
     <div id="particles"></div>
-
-    <!-- Navigation -->
-    <nav class="py-3 px-4">
-        <div class="max-w-6xl mx-auto flex justify-between items-center">
-            <div class="text-xl font-bold text-cyan-400">KERiT</div>
-            <div class="space-x-3">
-                <a href="index.html" class="nav-link">Home</a>
-                <a href="features.html" class="nav-link">Features</a>
-                <a href="commands.html" class="nav-link">Commands</a>
-                <a href="faq.html" class="nav-link">FAQ</a>
-                <a href="contact.html" class="nav-link">Contact</a>
+    <nav>
+        <div class="nav-container">
+            <div class="logo">KERiT</div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="features.html" class="nav-link">Features</a></li>
+                <li><a href="commands.html" class="nav-link">Commands</a></li>
+                <li><a href="faq.html" class="nav-link">FAQ</a></li>
+                <li><a href="pricing.html" class="nav-link">Pricing</a></li>
+                <li><a href="contact.html" class="nav-link active">Contact</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
         </div>
     </nav>
-
-    <!-- Contact Section -->
-    <section class="section text-center min-h-screen flex items-center">
-        <div class="max-w-4xl mx-auto">
-            <img src="kerit_logo.webp" alt="KERiT Logo" class="mx-auto mb-6 w-32 animate-pulse">
-            <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-4">Contact Us</h1>
-            <p class="text-lg md:text-2xl text-cyan-100 mb-6">
-                Have questions or need assistance? Reach out to the KERiT team via our support server or the form below.
+    <section class="section">
+        <div class="max-w-4xl mx-auto px-4">
+            <img src="kerit_logo.webp" alt="KERiT Logo" class="mx-auto mb-8 w-32 md:w-40 animate-pulse">
+            <h1 class="text-4xl md:text-6xl font-black text-white mb-6 text-center">Get In Touch</h1>
+            <p class="text-xl md:text-2xl text-cyan-100 mb-12 text-center max-w-2xl mx-auto">
+                We're excited to hear from you. Whether it's support, feedback, or partnerships, we're here to help.
             </p>
-            <div class="flex justify-center mb-8">
-                <a href="https://discord.gg/YTfWc3e99j" target="_blank"
-                   class="contact-button" style="display: inline-block; background: #1b263b; color: #e0e1dd; z-index: 1000;">
-                   Join Support Server
-                </a>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                <div class="contact-card">
+                    <h3 class="text-2xl font-semibold text-cyan-300 mb-4">Discord Support</h3>
+                    <p class="text-gray-300 mb-6">Real-time help from our team and community.</p>
+                    <a href="https://discord.gg/YTfWc3e99j" class="glow-button" target="_blank" aria-label="Join Server">Join Server</a>
+                </div>
+                <div class="contact-card">
+                    <h3 class="text-2xl font-semibold text-cyan-300 mb-4">Email Support</h3>
+                    <p class="text-gray-300 mb-6">For detailed inquiries: 699diam@gmail.com</p>
+                    <a href="mailto:699diam@gmail.com" class="glow-button" aria-label="Send Email">Send Email</a>
+                </div>
+                <div class="contact-card">
+                    <h3 class="text-2xl font-semibold text-cyan-300 mb-4">Social Media</h3>
+                    <p class="text-gray-300 mb-6">Follow for updates and quick chats.</p>
+                    <div class="space-y-2">
+                        <a href="https://twitter.com/keritbot" class="block text-cyan-400 hover:underline" target="_blank">Twitter</a>
+                        <a href="https://github.com/keritbot" class="block text-cyan-400 hover:underline" target="_blank">GitHub</a>
+                    </div>
+                </div>
+                <div class="contact-card">
+                    <h3 class="text-2xl font-semibold text-cyan-300 mb-4">Bug Report / Feature Request</h3>
+                    <p class="text-gray-300 mb-6">Submit via our support server or form below.</p>
+                    <a href="https://discord.gg/YTfWc3e99j" class="glow-button" target="_blank" aria-label="Submit Ticket">Submit Ticket</a>
+                </div>
             </div>
-            <form class="max-w-lg mx-auto space-y-4">
-                <div>
-                    <input type="text" placeholder="Your Name" class="form-input" required>
-                </div>
-                <div>
-                    <input type="email" placeholder="Your Email" class="form-input" required>
-                </div>
-                <div>
-                    <textarea placeholder="Your Message" rows="5" class="form-input" required></textarea>
-                </div>
-                <button type="submit" class="contact-button" style="display: inline-block; background: #1b263b; color: #e0e1dd; z-index: 1000;">
-                    Send Message
-                </button>
+            <form class="max-w-lg mx-auto space-y-4" id="contactForm">
+                <input type="text" placeholder="Your Name" class="form-input" required>
+                <input type="email" placeholder="Your Email" class="form-input" required>
+                <textarea placeholder="Your Message" class="form-textarea" required></textarea>
+                <button type="submit" class="glow-button w-full">Send Message</button>
             </form>
         </div>
     </section>
-
-    <!-- Footer -->
-    <footer class="py-4 bg-gray-900/50 text-center text-cyan-200 text-sm">
-        <p>© 2025 KERiT. All rights reserved.</p>
+    <footer class="py-8 text-center">
+        <div class="max-w-6xl mx-auto px-4">
+            <p class="text-cyan-200 mb-4">&copy; 2025 KERiT. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="https://twitter.com/keritbot" target="_blank" aria-label="Follow on Twitter">Twitter</a>
+                <a href="https://github.com/keritbot" target="_blank" aria-label="View on GitHub">GitHub</a>
+                <a href="privacy.html" aria-label="Privacy Policy">Privacy Policy</a>
+                <a href="terms.html" aria-label="Terms of Service">Terms</a>
+            </div>
+        </div>
     </footer>
-
     <script>
-        // Loader Animation
-        window.addEventListener('load', () => {
-            const tl = gsap.timeline();
-            tl.to('.loader-logo', { opacity: 1, y: -15, duration: 0.8 })
-              .to('.loader-text', { opacity: 1, y: -15, duration: 0.8 }, '-=0.4')
-              .to('.progress', { width: '100%', duration: 2, ease: 'power2.inOut' })
-              .to('#loader', { opacity: 0, duration: 0.8, delay: 0.3, onComplete: () => {
-                  document.getElementById('loader').style.display = 'none';
-              }});
+        // Form Submission (Client-side demo - replace with real backend)
+        document.getElementById('contactForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Thank you! Your message has been sent. We\'ll respond soon.');
+            e.target.reset();
         });
 
-        // GSAP Scroll Animations
-        gsap.utils.toArray('.section').forEach(section => {
-            gsap.from(section.querySelectorAll('img, h1, h2, p, a, button'), {
+        // No loader - immediate fade in
+        document.addEventListener('DOMContentLoaded', () => {
+            gsap.to('body', { opacity: 1, duration: 0.5 });
+        });
+
+        // Mobile Nav Toggle
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('open');
+        });
+
+        // Active Nav Link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            if (link.href === window.location.href) {
+                link.classList.add('active');
+            }
+        });
+
+        // Scroll Animations
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.utils.toArray('.contact-card').forEach((card, i) => {
+            gsap.from(card, {
                 scrollTrigger: {
-                    trigger: section,
+                    trigger: card,
                     start: 'top 85%',
-                    end: 'bottom 15%',
                     toggleActions: 'play none none reverse'
                 },
-                y: 30,
+                y: 50,
                 opacity: 0,
-                duration: 0.8,
-                stagger: 0.15,
+                duration: 0.6,
+                delay: i * 0.1,
                 ease: 'power3.out'
             });
         });
+        gsap.from('#contactForm', {
+            scrollTrigger: {
+                trigger: '#contactForm',
+                start: 'top 85%',
+                toggleActions: 'play none none reverse'
+            },
+            y: 30,
+            opacity: 0,
+            duration: 0.6,
+            ease: 'power3.out'
+        });
 
-        // Interactive Particle Background
+        // Enhanced Particles
+        const MAX_PARTICLES = 50;
         const particlesContainer = document.getElementById('particles');
         const particles = [];
-        for (let i = 0; i < 50; i++) {
+        for (let i = 0; i < MAX_PARTICLES; i++) {
             const particle = document.createElement('div');
             particle.className = 'particle';
-            particle.style.width = `${Math.random() * 3 + 1}px`;
-            particle.style.height = particle.style.width;
+            const size = Math.random() * 4 + 1;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
             particle.style.left = `${Math.random() * 100}%`;
             particle.style.top = `${Math.random() * 100}%`;
             particlesContainer.appendChild(particle);
             particles.push(particle);
             gsap.to(particle, {
-                x: Math.random() * 50 - 25,
-                y: Math.random() * 50 - 25,
-                opacity: Math.random() * 0.3 + 0.1,
-                duration: Math.random() * 6 + 3,
+                x: Math.random() * 100 - 50,
+                y: Math.random() * 100 - 50,
+                opacity: Math.random() * 0.5 + 0.2,
+                scale: Math.random() * 0.5 + 0.5,
+                rotation: 360,
+                duration: Math.random() * 10 + 5,
                 repeat: -1,
                 yoyo: true,
-                ease: 'sine.inOut'
+                ease: 'none'
             });
         }
 
-        // Mouse-Interactive Particles
+        // Mouse Interaction
+        let mouseThrottle = { x: 0, y: 0 };
         document.addEventListener('mousemove', (e) => {
-            const mouseX = e.clientX;
-            const mouseY = e.clientY;
-            particles.forEach(particle => {
-                const rect = particle.getBoundingClientRect();
-                const particleX = rect.left + rect.width / 2;
-                const particleY = rect.top + rect.height / 2;
-                const dist = Math.sqrt((mouseX - particleX) ** 2 + (mouseY - particleY) ** 2);
-                if (dist < 80) {
-                    const angle = Math.atan2(mouseY - particleY, mouseX - particleX);
-                    gsap.to(particle, {
-                        x: -Math.cos(angle) * (80 - dist) * 0.5,
-                        y: -Math.sin(angle) * (80 - dist) * 0.5,
-                        duration: 0.4,
-                        ease: 'power2.out'
-                    });
-                }
+            mouseThrottle.x = e.clientX;
+            mouseThrottle.y = e.clientY;
+            requestAnimationFrame(() => {
+                const mouseX = mouseThrottle.x;
+                const mouseY = mouseThrottle.y;
+                particles.forEach(particle => {
+                    const rect = particle.getBoundingClientRect();
+                    const particleX = rect.left + rect.width / 2;
+                    const particleY = rect.top + rect.height / 2;
+                    const dist = Math.sqrt((mouseX - particleX) ** 2 + (mouseY - particleY) ** 2);
+                    if (dist < 100) {
+                        const angle = Math.atan2(mouseY - particleY, mouseX - particleX);
+                        gsap.to(particle, {
+                            x: `+=${-Math.cos(angle) * (100 - dist) * 0.3}px`,
+                            y: `+=${-Math.sin(angle) * (100 - dist) * 0.3}px`,
+                            duration: 0.5,
+                            ease: 'power2.out'
+                        });
+                    }
+                });
             });
         });
 
-        // Enhanced Cursor with Dynamic Glow
-        const cursor = document.querySelector('.cursor');
-        const trailsContainer = document.getElementById('cursor-trails');
-        const trails = [];
-        let mouseX = 0, mouseY = 0, lastMouseX = 0, lastMouseY = 0;
-        let speed = 0;
-
-        document.addEventListener('mousemove', (e) => {
-            const prevX = mouseX;
-            const prevY = mouseY;
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-
-            // Calculate mouse speed
-            const deltaX = mouseX - prevX;
-            const deltaY = mouseY - prevY;
-            speed = Math.sqrt(deltaX * deltaX + deltaY * deltaY) / 10;
-            const scale = Math.min(1 + speed * 0.2, 1.2);
-            const glow = Math.min(45 + speed * 20, 60);
-
-            gsap.to(cursor, {
-                x: mouseX - 8,
-                y: mouseY - 8,
-                duration: 0.04,
-                ease: 'power2.out',
-                scale: scale,
-                boxShadow: `0 0 ${glow}px #00ddeb, 0 0 ${glow * 1.5}px rgba(0, 221, 235, 0.5), 0 0 ${glow * 2}px rgba(0, 221, 235, 0.2)`
-            });
-
-            const trail = document.createElement('div');
-            trail.className = 'cursor-trail';
-            trail.style.left = `${mouseX - 4}px`;
-            trail.style.top = `${mouseY - 4}px`;
-            trail.style.opacity = Math.min(0.7 + speed * 0.2, 0.9);
-            trailsContainer.appendChild(trail);
-            trails.push(trail);
-
-            gsap.to(trail, {
-                opacity: 0,
-                scale: 0.3,
-                duration: 0.8,
-                delay: 0.05,
-                ease: 'power2.out',
-                onComplete: () => {
-                    trail.remove();
-                    trails.shift();
-                }
-            });
-
-            lastMouseX = mouseX;
-            lastMouseY = mouseY;
-        });
-
-        // Diagnostic Script for Button Visibility
-        window.addEventListener('load', () => {
-            const buttons = document.querySelectorAll('.contact-button');
-            buttons.forEach(button => {
-                const rect = button.getBoundingClientRect();
-                const isVisible = rect.width > 0 && rect.height > 0 && getComputedStyle(button).display !== 'none';
-                console.log(`Button "${button.textContent}": Visible=${isVisible}, Position=(${rect.left}, ${rect.top}), Size=(${rect.width}x${rect.height}), Display=${getComputedStyle(button).display}, Opacity=${getComputedStyle(button).opacity}`);
-                if (!isVisible) {
-                    console.warn(`Button "${button.textContent}" is not visible! Check CSS (display, opacity, z-index) or overlapping elements.`);
-                }
+        // Close mobile nav on link click
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                hamburger.classList.remove('open');
             });
         });
     </script>
